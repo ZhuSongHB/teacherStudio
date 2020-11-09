@@ -63,7 +63,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-	if (to.path === '/login') {
+	if (to.path === '/register') {
 		next();
 		return;
 	} else if (to.path === '/examine') {
@@ -72,7 +72,7 @@ router.beforeEach((to, from, next) => {
 		if (type == '1' && id) {
 			next();
 			return;
-		} else if (type == '2' && id) {
+		} else if (type == '0' && id) {
 			alert('需要教师登录');
 			sessionStorage.clear();
 			next('/register');
@@ -85,7 +85,7 @@ router.beforeEach((to, from, next) => {
 	} else if (to.path === '/personal') {
 		let type = sessionStorage.getItem('type');
 		let id = sessionStorage.getItem('id');
-		if (type == '2' && id) {
+		if (type == '0' && id) {
 			next();
 			return;
 		} else if (type == '1' && id) {

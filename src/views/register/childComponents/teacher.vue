@@ -117,32 +117,42 @@
 
 				// post请求
 				this.form.idcard = this.form.idcard.toUpperCase();
-				teacherLogin(this.form).then(res => {
-					res = res.data;
-					// 判断是否注册成功 (等待后端传送)
-					if (res.code == 1) {
+				teacherLogin(this.form)
+					.then(res => {
+						res = res.data;
+						// 判断是否注册成功 (等待后端传送)
+						if (res.code == 1) {
+							this.$message({
+								message: res.msg,
+								type: 'success',
+							});
+							window.sessionStorage.clear();
+							window.localStorage.clear();
+							window.sessionStorage.setItem('type', 1);
+							window.sessionStorage.setItem('name', this.form.name);
+							//token
+							_this.userToken = res.data.token;
+							// 将用户token保存到vuex中
+							_this.changeLogin({ Authorization: _this.userToken });
+							window.sessionStorage.setItem('token', res.data.token);
+							window.sessionStorage.setItem('id', this.form.id);
+							console.log(1);
+
+							this.$router.push('/studio');
+						} else {
+							this.$message({
+								message: '账户验证错误',
+								type: 'warning',
+							});
+						}
+					})
+					.catch(err => {
+						console.log(err);
 						this.$message({
-							message: res.msg,
-							type: 'success',
-						});
-						window.sessionStorage.clear();
-						window.localStorage.clear();
-						window.sessionStorage.setItem('type', 1);
-						window.sessionStorage.setItem('name', this.form.name);
-						//token
-						_this.userToken = res.data.token;
-						// 将用户token保存到vuex中
-						_this.changeLogin({ Authorization: _this.userToken });
-						window.sessionStorage.setItem('token', res.data.token);
-						window.sessionStorage.setItem('id', this.form.id);
-						history.go(-1);
-					} else {
-						this.$message({
-							message: "账户验证错误",
+							message: '网络出现错误，请重新认证!',
 							type: 'warning',
 						});
-					}
-				});
+					});
 			},
 			// 重置信息
 			reset() {
