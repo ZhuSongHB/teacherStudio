@@ -4,10 +4,10 @@ import VueRouter from 'vue-router';
 const Home = () => import('views/home/Home');
 const Studio = () => import('views/studio/Studio');
 const StudioDetail = () => import('views/studioDetail/StudioDetail');
-const Index = () => import('views/index/Index');
-const Notice = () => import('views/notice/Notice');
-const NoticeDetail = () => import('views/notice/NoticeDetail');
-const register = () => import('views/register/index');
+// const Index = () => import('views/index/Index');
+// const Notice = () => import('views/notice/Notice');
+// const NoticeDetail = () => import('views/notice/NoticeDetail');
+const login = () => import('views/login/index');
 const examine = () => import('views/examine/index');
 const personal = () => import('views/personal/personal');
 Vue.use(VueRouter);
@@ -26,10 +26,10 @@ const routes = [
 		component: Home,
 		redirect: '/studio',
 		children: [
-			{
-				path: '/index',
-				component: Index,
-			},
+			// {
+			// 	path: '/index',
+			// 	component: Index,
+			// },
 			{
 				path: '/studio',
 				component: Studio,
@@ -38,17 +38,17 @@ const routes = [
 				path: '/studioDetail/:id',
 				component: StudioDetail,
 			},
+			// {
+			// 	path: '/notice',
+			// 	component: Notice,
+			// },
+			// {
+			// 	path: '/noticeDetail',
+			// 	component: NoticeDetail,
+			// },
 			{
-				path: '/notice',
-				component: Notice,
-			},
-			{
-				path: '/noticeDetail',
-				component: NoticeDetail,
-			},
-			{
-				path: '/register',
-				component: register,
+				path: '/login',
+				component: login,
 				// children: [{ path: '', component: component }],
 			},
 			{ path: '/examine', component: examine },
@@ -61,9 +61,8 @@ const router = new VueRouter({
 	mode: 'hash',
 	routes,
 });
-
 router.beforeEach((to, from, next) => {
-	if (to.path === '/register') {
+	if (to.path === '/login') {
 		next();
 		return;
 	} else if (to.path === '/examine') {
@@ -75,11 +74,11 @@ router.beforeEach((to, from, next) => {
 		} else if (type == '0' && id) {
 			alert('需要教师登录');
 			sessionStorage.clear();
-			next('/register');
+			next('/login');
 			return;
 		} else {
 			alert('请先登录');
-			next('/register');
+			next('/login');
 			return;
 		}
 	} else if (to.path === '/personal') {
@@ -91,11 +90,11 @@ router.beforeEach((to, from, next) => {
 		} else if (type == '1' && id) {
 			alert('需要学生登录');
 			sessionStorage.clear();
-			next('/register');
+			next('/login');
 			return;
 		} else {
 			alert('请先登录');
-			next('/register');
+			next('/login');
 			return;
 		}
 	}

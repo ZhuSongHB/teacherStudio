@@ -8,9 +8,10 @@ import './plugins/element';
 require('./mock');
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
-
 new Vue({
 	router,
 	store,
 	render: h => h(App),
 }).$mount('#app');
+
+document.title = '阳光学院-名师工作室';

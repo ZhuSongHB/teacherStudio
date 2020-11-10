@@ -3,13 +3,15 @@
 		<el-header style="width: 100% ; height: 200px ; padding: 0 0">
 			<!-- 顶部 -->
 			<div class="title_bg">
-				<img class="logo" alt="logo" src="~assets/logo.png" />
+				<router-link to="/studio">
+					<img class="logo" alt="logo" src="~assets/logo.png" />
+				</router-link>
 				<div class="title_name">名师工作室</div>
 				<!-- 用type判断是否登录 0是学生 1是老师 2是未登录 -->
 				<div class="title_search" v-if="!type">
 					<!-- 登录 -->
 					<!-- <router-link to="/login" style="color:white;">登录</router-link> -->
-					<router-link to="/register" style="color:white;" class="ml20">登录认证</router-link>
+					<router-link to="/login" style="color:white;" class="ml20">登录认证</router-link>
 				</div>
 				<div class="title_search" v-else>
 					<!-- 登录后 -->
@@ -95,6 +97,9 @@
 </script>
 
 <style scoped>
+	a {
+		text-decoration: none;
+	}
 	.el-container {
 		height: 100%;
 	}
@@ -115,6 +120,7 @@
 	.logo {
 		flex-grow: 0;
 		margin-left: 130px;
+		cursor: pointer;
 	}
 	.title_name {
 		flex-grow: 10;

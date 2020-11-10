@@ -16,7 +16,7 @@
 						<div style="padding: 14px">
 							<div class="studioName">{{ item.name }}</div>
 							<div class="time">
-								<div>老师：{{ item.teacher_name }}</div>
+								<div>负责人：{{ item.teacher_name }}</div>
 								<div>招收人数：{{ item.student_num }}/{{ item.max_student }}</div>
 							</div>
 						</div>
@@ -90,15 +90,18 @@
 					});
 			},
 			itemClick(id) {
-				// console.log(id);
-				this.$router.push('/studioDetail/' + String(id));
+				// this.$router.push('/studioDetail/' + String(id));
+				let routerJump = this.$router.resolve({ path: '/studioDetail/' + id });
+				window.open(routerJump.href, '_blank');
 			},
 			// 分页
 			handleCurrentChange(val) {
+				console.log(val);
+
 				// val: 需要的页数
 				this.page = val - 1;
 				this.showList = this.list.slice(this.page * 12, this.page * 12 + 12);
-				// 返回头部
+				// 返回头部;
 				const that = this;
 				let timer = setInterval(() => {
 					let ispeed = Math.floor(-that.scrollTop / 5);
@@ -129,10 +132,10 @@
 		display: flex;
 		margin: 0px auto;
 		width: 1300px;
-		min-height: 550px;
+		/* min-height: 550px; */
 		/* overflow: hidden;   */
 		justify-content: left;
-		/* align-items: center; */
+		align-items: center;
 		flex-wrap: wrap;
 	}
 	.el-card {
