@@ -226,41 +226,15 @@
 	.type {
 		font-size: 36px;
 	}
-	.member {
-		margin-bottom: 20px;
-	}
-	.text {
-		font-size: 14px;
-	}
-
-	.item {
-		margin-bottom: 18px;
-	}
-
-	.clearfix:before,
-	.clearfix:after {
-		display: table;
-		content: '';
-	}
-	.clearfix:after {
-		clear: both;
-	}
-
-	.box-card {
-		width: 480px;
+	.el-tabs {
+		min-height: 350px;
 	}
 	.el-button {
-		/* width: 60px; */
-		/* line-height: 5px; */
 		min-width: 80px;
 		padding: 7px 7px;
 		margin-left: -7px;
 	}
 	.refuseAll {
-		/* position: absolute;
-		top: 40px;
-		right: 50px;
-		z-index: 100; */
 		margin-right: 13px;
 		float: right;
 	}

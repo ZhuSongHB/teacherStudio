@@ -32,7 +32,7 @@ export default {
 			code: 1,
 			msg: '',
 			data: {
-				num: 99,
+				num: 160,
 				studios: arr,
 			},
 		};

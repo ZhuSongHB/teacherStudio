@@ -1,6 +1,6 @@
 <template>
 	<el-container>
-		<el-header style="width: 100% ; height: 200px ; padding: 0 0">
+		<el-header style="width: 100% ; padding: 0 0">
 			<!-- 顶部 -->
 			<div class="title_bg">
 				<router-link to="/studio">
@@ -11,21 +11,21 @@
 				<div class="title_search" v-if="!type">
 					<!-- 登录 -->
 					<!-- <router-link to="/login" style="color:white;">登录</router-link> -->
-					<router-link to="/login" style="color:white;" class="ml20">登录认证</router-link>
+					<router-link to="/login" style="color:white;" class="mr20">登录认证</router-link>
 				</div>
 				<div class="title_search" v-else>
 					<!-- 登录后 -->
 					<div v-if="type == 0">
-						<router-link to="/" style="color:white;">{{ name }}</router-link>
-						<router-link to="/personal" style="color:white;" class="ml20">个人中心</router-link>
-						<router-link to="/" style="color:white;" class="ml20">
+						<router-link to="/" style="color:white;" class="mr20">{{ name }}</router-link>
+						<router-link to="/personal" style="color:white;white-space:nowrap;" class="mr20">个人中心</router-link>
+						<router-link to="/" style="color:white;white-space:nowrap;" class="mr20">
 							<span @click="exit">退出</span>
 						</router-link>
 					</div>
 					<div v-else-if="type == 1">
-						<router-link to="/" style="color:white;">{{ name }}</router-link>
-						<router-link to="/examine" style="color:white;" class="ml20">审核中心</router-link>
-						<router-link to="/" style="color:white;" class="ml20"><span @click="exit">退出</span></router-link>
+						<router-link to="/" style="color:white;" class="mr20">{{ name }}</router-link>
+						<router-link to="/examine" style="color:white;white-space:nowrap;" class="mr20">审核中心</router-link>
+						<router-link to="/" style="color:white;white-space:nowrap;" class="mr20"><span @click="exit">退出</span></router-link>
 					</div>
 				</div>
 			</div>
@@ -96,12 +96,15 @@
 	};
 </script>
 
-<style scoped>
+<style scoped lang="less">
+	/* .el-container {
+		height: 100%;
+	} */
 	a {
 		text-decoration: none;
 	}
-	.el-container {
-		height: 100%;
+	.el-header {
+		height: 200px !important;
 	}
 	.el-main {
 		margin: 0 auto;
@@ -110,55 +113,85 @@
 	}
 	.title_bg {
 		display: flex;
+		height: 105px;
 		padding: 20px 0 20px 0;
 		background: url('~assets/top-bg.jpg');
 		align-items: center;
+		.logo {
+			flex-grow: 1;
+			margin-left: 130px;
+			cursor: pointer;
+		}
+		.title_name {
+			flex-grow: 10;
+			margin-left: 20px;
+			font-size: 30px;
+			font-weight: 400;
+			color: white;
+		}
+		.title_search {
+			/* position: absolute; */
+			/* right: 120px; */
+			flex-grow: 1;
+		}
+		@media screen and (max-width: 814px) {
+			.logo {
+				display: none;
+			}
+			.title_name {
+				margin-left: 120px;
+			}
+
+			.el-header {
+				height: 100px !important ;
+			}
+			.title_search {
+				/* position: absolute; */
+				/* right: 120px; */
+				flex-grow: 1;
+				margin-left: 100px;
+				font-size: 26px;
+			}
+		}
+		@media screen and (max-width: 656px) {
+			.title_name {
+				display: block;
+				margin-left: 50px;
+				flex-grow: 1;
+			}
+			.logo {
+				display: none;
+			}
+			.title_search {
+				/* position: absolute; */
+				/* right: 120px; */
+				flex-grow: 1;
+
+				margin-left: 20px;
+				font-size: 26px;
+			}
+		}
 	}
-	.el-link {
-		margin-left: 20px;
-	}
-	.logo {
-		flex-grow: 0;
-		margin-left: 130px;
-		cursor: pointer;
-	}
-	.title_name {
-		flex-grow: 10;
-		margin-left: 20px;
-		font-size: 30px;
-		font-weight: 400;
-		color: white;
-	}
+	// .el-link {
+	// 	margin-left: 20px;
+	// }
+
 	.nav .el-menu-demo {
 		display: flex;
 		/* margin-left: 100px; */
 		justify-content: space-evenly;
 	}
-	.title_search {
-		/* position: absolute; */
-		/* right: 120px; */
-		flex-grow: 1;
-		width: 200px;
-	}
 
-	.text {
-		font-size: 14px;
-	}
+	// .text {
+	// 	font-size: 14px;
+	// }
 
 	.item {
 		margin-bottom: 18px;
 	}
 
-	.clearfix:before,
-	.clearfix:after {
-		display: table;
-		content: '';
-	}
-	.clearfix:after {
-		clear: both;
-	}
-	.ml20 {
-		margin-left: 20px;
+	.mr20 {
+		margin-right: 20px;
 	}
 	@keyframes textColor {
 		0% {
