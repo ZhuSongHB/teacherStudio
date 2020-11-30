@@ -2,14 +2,14 @@
 	<div class="box">
 		<el-form ref="form" :model="form" label-width="80px" :rules="loginFormRules">
 			<el-form-item label="学号" prop="id">
-				<el-input v-model.trim="form.id" placeholder="请输入学号" @blur="isOver" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
+				<el-input v-model.trim="form.id" placeholder="请输入学号" @blur="isOver"></el-input>
 			</el-form-item>
 			<el-form-item label="姓名" prop="name">
 				<el-input v-model.trim="form.name" placeholder="请输入姓名" @input="isOver" @blur="isOver"></el-input>
 			</el-form-item>
 
 			<el-form-item label="身份证" prop="idcard">
-				<el-input v-model.trim="form.idcard" placeholder="请输入身份证" @input="isOver" @blur="isOver" oninput="value=value.replace(/[^\dxX]/g,'')"></el-input>
+				<el-input v-model.trim="form.idcard" placeholder="请输入身份证" @input="isOver" @blur="isOver"></el-input>
 			</el-form-item>
 			<!-- <el-form-item label="密码" prop="password">
 				<el-input v-model="form.password" placeholder="请输入密码" show-password @input="isOver"></el-input>
@@ -74,7 +74,14 @@
 							trigger: 'blur',
 						},
 					],
-					name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+					name: [
+						{ required: true, message: '请输入姓名', trigger: 'blur' },
+						{
+							min: 2,
+							message: '请输入姓名',
+							trigger: 'blur',
+						},
+					],
 					// password: [
 					// 	{ required: true, message: '请输入密码', trigger: 'blur' },
 					// 	{
@@ -154,10 +161,8 @@
 			},
 			// 是否打开按钮 判断填写完成
 			isOver() {
-				console.log(this.form);
-
 				if (this.form.id && this.form.idcard && this.form.name) {
-					if (this.form.name.length >= 2 && this.form.name.length <= 5) {
+					if (this.form.name.length >= 2) {
 						if (this.form.idcard.length == 18) {
 							this.key = false;
 						} else {

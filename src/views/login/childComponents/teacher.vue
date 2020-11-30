@@ -1,34 +1,18 @@
 <template>
 	<div class="box">
 		<el-form ref="form" :model="form" label-width="80px" :rules="loginFormRules">
-			<el-form-item label="工号" prop="id">
-				<el-input v-model.trim="form.id" placeholder="请输入工号" @blur="isOver" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
+			<el-form-item label="账号" prop="id">
+				<el-input v-model.trim="form.id" placeholder="请输入教务系统账号" @input="isOver"></el-input>
 			</el-form-item>
 			<el-form-item label="姓名" prop="name">
-				<el-input v-model.trim="form.name" placeholder="请输入姓名" @input="isOver" @blur="isOver"></el-input>
+				<el-input v-model.trim="form.name" placeholder="请输入姓名" @input="isOver"></el-input>
 			</el-form-item>
 
 			<el-form-item label="身份证" prop="idcard">
-				<el-input v-model.trim="form.idcard" placeholder="请输入身份证" @input="isOver" @blur="isOver" oninput="value=value.replace(/[^\dxX]/g,'')"></el-input>
+				<el-input v-model.trim="form.idcard" placeholder="请输入身份证后六位" @input="isOver"></el-input>
 			</el-form-item>
-			<!-- <el-form-item label="密码" prop="password">
-				<el-input v-model="form.password" placeholder="请输入密码" show-password @input="isOver"></el-input>
-			</el-form-item>
-			<el-form-item label="确认密码" prop="rePassword">
-				<el-input v-model="form.rePassword" placeholder="再次输入密码" show-password @input="isOver"></el-input>
-			</el-form-item> -->
 			<el-form-item class="button">
 				<el-button type="primary" @click.prevent="queren" :disabled="key" native-type="“submit”">登录认证</el-button>
-				<!-- <el-dialog title="信息确认" :visible.sync="dialogVisible" width="30%">
-					<div>工号：{{ this.form.id }}</div>
-					
-					<div>姓名：{{ this.form.name }}</div>
-					<div>请检查信息是否准确，一旦注册密码无法修改。</div>
-					<span slot="footer" class="dialog-footer">
-						<el-button @click="dialogVisible = false">取 消</el-button>
-						<el-button type="primary" @click="queren">确 定</el-button>
-					</span>
-				</el-dialog> -->
 				<el-button @click.prevent="reset" style="margin-left:30px;">重置</el-button>
 			</el-form-item>
 		</el-form>
@@ -42,23 +26,10 @@
 		//接收父组件参数
 		props: ['change'],
 		data() {
-			// 两次密码验证
-			// var validatePass2 = (rule, value, callback) => {
-			// 	if (value === '') {
-			// 		callback(new Error('请再次输入密码'));
-			// 	} else if (value !== this.form.password) {
-			// 		callback(new Error('两次输入密码不一致!'));
-			// 	} else {
-			// 		callback();
-			// 	}
-			// };
 			return {
-				// dialogVisible: false,
 				form: {
 					id: null,
 					name: '',
-					// password: '',
-					// rePassword: '',
 					idcard: null,
 				},
 				// 按钮开关
@@ -66,38 +37,30 @@
 				// 表单验证规则
 				loginFormRules: {
 					id: [
-						{ required: true, message: '请输入工号', trigger: 'blur' },
+						{ required: true, message: '请输入教务系统账号', trigger: 'blur' },
 						{
-							min: 8,
-							max: 10,
-							message: '请输入8-10位工号',
+							min: 1,
+							message: '请输入正确教务系统账号',
 							trigger: 'blur',
 						},
 					],
-					name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-					// password: [
-					// 	{ required: true, message: '请输入密码', trigger: 'blur' },
-					// 	{
-					// 		min: 6,
-					// 		max: 15,
-					// 		message: '密码长度在 6 到 15 个字符',
-					// 		trigger: 'blur',
-					// 	},
-					// ],
+					name: [
+						{ required: true, message: '请输入姓名', trigger: 'blur' },
+						{
+							min: 2,
+							message: '请输入姓名',
+							trigger: 'blur',
+						},
+					],
 					idcard: [
-						{ required: true, message: '请输入身份证', trigger: 'blur' },
+						{ required: true, message: '输入身份证后六位', trigger: 'blur' },
 						{
-							min: 18,
-							max: 18,
-							message: '输入正确的身份证',
+							min: 6,
+							max: 6,
+							message: '输入身份证后六位验证',
 							trigger: 'blur',
 						},
 					],
-					// college: [{ required: true, message: '请输入学院', trigger: 'blur' }],
-					// major: [{ required: true, message: '请输入专业', trigger: 'blur' }],
-					// class: [{ required: true, message: '请输入班级', trigger: 'blur' }],
-					// 密码验证
-					// rePassword: [{ validator: validatePass2, trigger: 'blur', required: true }],
 				},
 			};
 		},
@@ -108,6 +71,7 @@
 				let _this = this;
 				// post请求
 				this.form.idcard = this.form.idcard.toUpperCase();
+				this.form.id = Number(this.form.id);
 				teacherLogin(this.form)
 					.then(res => {
 						res = res.data;
@@ -129,6 +93,7 @@
 							window.sessionStorage.setItem('id', this.form.id);
 
 							this.$router.push('/studio');
+							// this.$router.push('/examine');
 						} else {
 							this.$message({
 								message: '账户验证错误',
@@ -138,6 +103,7 @@
 					})
 					.catch(err => {
 						console.log(err);
+
 						this.$message({
 							message: '网络出现错误，请重新认证!',
 							type: 'warning',
@@ -148,15 +114,13 @@
 			reset() {
 				this.form.id = '';
 				this.form.name = '';
-				// this.form.password = '';
-				// this.form.rePassword = '';
 				this.form.idcard = '';
 			},
 			// 是否打开按钮 判断填写完成
 			isOver() {
 				if (this.form.id && this.form.idcard && this.form.name) {
-					if (this.form.name.length >= 2 && this.form.name.length <= 5) {
-						if (this.form.idcard.length == 18) {
+					if (this.form.name.length >= 2) {
+						if (this.form.idcard.length == 6) {
 							this.key = false;
 						} else {
 							this.key = true;
@@ -169,13 +133,8 @@
 					this.key = true;
 				}
 			},
-			// isNumber() {
-			// 	console.log(this.form.id);
-			// },
 		},
-		created() {
-			// console.log(change);
-		},
+		created() {},
 	};
 </script>
 
@@ -187,8 +146,8 @@
 	.el-input {
 		width: 217px;
 	}
-	label {
-		width: 100px;
+	.el-form-item__label {
+		width: 400px;
 	}
 	.button {
 		display: flex;

@@ -1,12 +1,17 @@
 <template>
-	<el-container>
+	<el-container id="header">
 		<el-header style="width: 100% ; padding: 0 0">
 			<!-- 顶部 -->
 			<div class="title_bg">
 				<router-link to="/studio">
 					<img class="logo" alt="logo" src="~assets/logo.png" />
 				</router-link>
-				<div class="title_name">名师工作室</div>
+
+				<div class="title_name">
+					<router-link to="/studio">
+						名师工作室
+					</router-link>
+				</div>
 				<!-- 用type判断是否登录 0是学生 1是老师 2是未登录 -->
 				<div class="title_search" v-if="!type">
 					<!-- 登录 -->
@@ -28,7 +33,58 @@
 						<router-link to="/" style="color:white;white-space:nowrap;" class="mr20"><span @click="exit">退出</span></router-link>
 					</div>
 				</div>
+
+				<div class="min_title_search">
+					<!-- 手机适配 -->
+					<!-- 未登录 -->
+					<el-dropdown trigger="click" v-if="!type">
+						<span class="el-dropdown-link">
+							<i class="el-icon-more el-icon--right"></i>
+						</span>
+						<el-dropdown-menu slot="dropdown">
+							<router-link to="/login">
+								<el-dropdown-item icon="el-icon-user-solid">登录认证</el-dropdown-item>
+							</router-link>
+						</el-dropdown-menu>
+					</el-dropdown>
+					<!-- 登录类型判断  -->
+					<!-- 学生 -->
+					<el-dropdown trigger="click" v-if="type == 0">
+						<span class="el-dropdown-link">
+							<i class="el-icon-more el-icon--right"></i>
+						</span>
+						<el-dropdown-menu slot="dropdown">
+							<router-link to="/">
+								<el-dropdown-item icon="el-icon-user-solid">{{ name }}</el-dropdown-item>
+							</router-link>
+							<router-link to="/personal">
+								<el-dropdown-item icon="el-icon-s-home">个人中心</el-dropdown-item>
+							</router-link>
+							<router-link to="/">
+								<el-dropdown-item icon="el-icon-minus"><span @click="exit">退出</span></el-dropdown-item>
+							</router-link>
+						</el-dropdown-menu>
+					</el-dropdown>
+					<!-- 老师 -->
+					<el-dropdown trigger="click" v-if="type == 1">
+						<span class="el-dropdown-link">
+							<i class="el-icon-more el-icon--right"></i>
+						</span>
+						<el-dropdown-menu slot="dropdown">
+							<router-link to="/">
+								<el-dropdown-item icon="el-icon-user-solid">{{ name }}</el-dropdown-item>
+							</router-link>
+							<router-link to="/examine">
+								<el-dropdown-item icon="el-icon-s-home">审核中心</el-dropdown-item>
+							</router-link>
+							<router-link to="/">
+								<el-dropdown-item icon="el-icon-minus"><span @click="exit">退出</span></el-dropdown-item>
+							</router-link>
+						</el-dropdown-menu>
+					</el-dropdown>
+				</div>
 			</div>
+
 			<!-- 导航 -->
 			<div class="nav">
 				<div class="line"></div>
@@ -58,7 +114,7 @@
 			</div>
 			<!-- <div>Copyright 2020 19软工专升本：许心昊，朱颂. All rights reserved.</div> -->
 			<div>
-				数据来源：教务处 联系人：林峰
+				数据来源：教务处 联系人：林锋
 			</div>
 		</el-footer>
 	</el-container>
@@ -75,9 +131,9 @@
 		},
 		created() {
 			// 0是学生，1是老师
+
 			this.type = sessionStorage.getItem('type');
 			this.name = sessionStorage.getItem('name');
-			// console.log(this.type);
 		},
 		methods: {
 			studio() {
@@ -86,6 +142,7 @@
 			exit() {
 				this.type = null;
 				window.localStorage.clear();
+
 				window.sessionStorage.clear();
 			},
 		},
@@ -97,9 +154,9 @@
 </script>
 
 <style scoped lang="less">
-	/* .el-container {
-		height: 100%;
-	} */
+	.el-container {
+		position: relative;
+	}
 	a {
 		text-decoration: none;
 	}
@@ -128,11 +185,22 @@
 			font-size: 30px;
 			font-weight: 400;
 			color: white;
+			a {
+				color: white;
+			}
 		}
-		.title_search {
+		.title_search,
+		.min_title_search {
 			/* position: absolute; */
 			/* right: 120px; */
 			flex-grow: 1;
+		}
+		.min_title_search {
+			display: none;
+			i {
+				font-size: 24px;
+				color: white;
+			}
 		}
 		@media screen and (max-width: 814px) {
 			.logo {
@@ -142,21 +210,19 @@
 				margin-left: 120px;
 			}
 
-			.el-header {
-				height: 100px !important ;
-			}
 			.title_search {
 				/* position: absolute; */
 				/* right: 120px; */
 				flex-grow: 1;
 				margin-left: 100px;
-				font-size: 26px;
+				font-size: 16px;
 			}
 		}
 		@media screen and (max-width: 656px) {
 			.title_name {
 				display: block;
-				margin-left: 50px;
+				margin-left: 20px;
+				font-size: 24px;
 				flex-grow: 1;
 			}
 			.logo {
@@ -165,11 +231,26 @@
 			.title_search {
 				/* position: absolute; */
 				/* right: 120px; */
-				flex-grow: 1;
-
-				margin-left: 20px;
-				font-size: 26px;
+				display: none;
 			}
+			.min_title_search {
+				flex-grow: 1;
+				margin-left: 120px;
+				display: block;
+			}
+		}
+	}
+	@media screen and (max-width: 656px) {
+		.title_bg {
+			height: 60px;
+		}
+		.el-header {
+			height: 160px !important;
+		}
+		.el-main {
+			margin: 0 auto;
+			min-height: 550px;
+			padding: 0;
 		}
 	}
 	// .el-link {

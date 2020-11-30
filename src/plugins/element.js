@@ -5,6 +5,9 @@ import {
 	Button,
 	Form,
 	FormItem,
+	Dropdown,
+	DropdownMenu,
+	DropdownItem,
 	Input,
 	Message,
 	Container,
@@ -12,6 +15,7 @@ import {
 	Aside,
 	Main,
 	Menu,
+	Notification,
 	Submenu,
 	MenuItem,
 	Breadcrumb,
@@ -21,24 +25,27 @@ import {
 	Col,
 	Table,
 	TableColumn,
-	Switch,
-	Tooltip,
 	Pagination,
-	Dialog,
+	// Dialog,
 	MessageBox,
 	Tag,
-	Tree,
-	Select,
-	Option,
-	Cascader,
-	Alert,
+	Loading,
+	Drawer,
+	// Select,
+	// Option,
+	// Cascader,
 	Tabs,
+	Footer,
 	TabPane,
-	Carousel,
-	CarouselItem,
+	Radio,
+	Collapse,
+	CollapseItem,
+	Alert,
+	// TabPane,
+	// Carousel,
+	// CarouselItem,
 	// ElementUI
 } from 'element-ui';
-// Vue.use(ElementUI)
 Vue.use(Button);
 Vue.use(Form);
 Vue.use(FormItem);
@@ -57,20 +64,33 @@ Vue.use(Row);
 Vue.use(Col);
 Vue.use(Table);
 Vue.use(TableColumn);
-Vue.use(Switch);
-Vue.use(Tooltip);
 Vue.use(Pagination);
-Vue.use(Dialog);
+// Vue.use(Dialog);
 Vue.use(Tag);
-Vue.use(Tree);
-Vue.use(Select);
-Vue.use(Option);
-Vue.use(Cascader);
 Vue.use(Alert);
+// Vue.use(Select);
+// Vue.use(Option);
+Vue.use(Drawer);
+// Vue.use(Cascader);
 Vue.use(Tabs);
+Vue.use(Dropdown);
+Vue.use(DropdownMenu);
+Vue.use(DropdownItem);
+Vue.use(Footer);
 Vue.use(TabPane);
-Vue.use(Carousel);
-Vue.use(CarouselItem);
+Vue.use(Radio);
+Vue.use(Collapse);
+Vue.use(CollapseItem);
+// Vue.use(TabPane);
+// Vue.use(Carousel);
+// Vue.use(CarouselItem);
+Vue.use(Loading.directive);
 
 Vue.prototype.$message = Message;
 Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$loading = Loading.service;
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$prompt = MessageBox.prompt;
+Vue.prototype.$notify = Notification;
+
+Vue.prototype.$alert = MessageBox.alert;

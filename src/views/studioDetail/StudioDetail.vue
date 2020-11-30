@@ -2,7 +2,7 @@
 	<div class="main" v-loading="loading">
 		<div class="showStudio">
 			<div class="content">
-				<img src="../../assets/tupian.png" alt="" />
+				<img src="../../assets/tupian.jpg" alt="" />
 				<div style="width:100%;position: relative;">
 					<div class="studio">{{ content.name }}</div>
 					<div class="teacher">
@@ -12,7 +12,7 @@
 					<!-- v-if="!isSignUp" -->
 					<el-button type="text" @click="open" style="background:#ff6d43;color:white;" v-loading="SignUploading">点击报名</el-button>
 					<!-- <el-button v-else type="text" @click="open" style="background:#ff6d43;color:white;" disabled>审核中...</el-button> -->
-					<div class="max_numberm">招收人数：{{ content.student_num }}/{{ content.max_student }}人</div>
+					<div class="max_numberm">人数：{{ content.student_num }}/{{ content.max_student }}人</div>
 				</div>
 			</div>
 		</div>
@@ -51,6 +51,7 @@
 						confirmButtonText: '确定',
 						cancelButtonText: '取消',
 						inputType: 'textarea',
+						customClass: 'min-message',
 					}).then(val => {
 						// 获取学生id
 						const studentId = sessionStorage.getItem('id');
@@ -69,44 +70,31 @@
 						signUp(studentId, studioId, type, introduce.value, token)
 							.then(res => {
 								res = res.data;
+								console.log(res);
 								if (res.code == 1) {
 									this.$message({
 										type: 'success',
 										message: res.msg,
 									});
 								} else if (res.code == 0) {
-									this.$message.error('报名失败，已报名别的工作室或已加入一个工作室');
+									this.$notify.error({
+										title: '报名失败',
+										dangerouslyUseHTMLString: true,
+										message: '<p> 1.学生只能报名、加入一个工作室 </p> <p>  2.加入的工作室已满员</p> ',
+										duration: 4000,
+									});
 								}
 								this.SignUploading = false;
 							})
-							.catch(() => {
-								console.log(1);
+							.catch(err => {
+								console.log(err);
+								this.$message({
+									message: '网络出现错误!',
+									type: 'warning',
+								});
 								this.SignUploading = false;
 							});
 					});
-
-					// this.$confirm('是否向"' + this.content.name + '"报名？', '确认信息', {
-					// 	distinguishCancelAndClose: true,
-					// 	confirmButtonText: '确认',
-					// 	cancelButtonText: '离开',
-					// }).then(() => {
-					// 	// 获取学生id
-					// 	let studentId = sessionStorage.getItem('id');
-					// 	//工作室ID
-					// 	let studioId = this.$route.params.id;
-					// 	// console.log(studioId);
-					// 	signUp(studentId, studioId).then(res => {
-					// 		res = res.data;
-					// 		if (res.result) {
-					// 			this.$message({
-					// 				type: 'success',
-					// 				message: res.msg,
-					// 			});
-					// 		} else {
-					// 			this.$message.error(res.msg);
-					// 		}
-					// 	});
-					// });
 				} else {
 					this.$confirm('请先登录认证在报名', '未登录', {
 						distinguishCancelAndClose: true,
@@ -124,91 +112,244 @@
 				.then(res => {
 					this.content = res.data.data;
 					this.loading = false;
+					document.title = this.content.name ? this.content.name : '错误';
 				})
 				.catch(err => {
 					console.log(err);
+					this.$message({
+						message: '网络出现错误!',
+						type: 'warning',
+					});
 				});
 		},
 	};
 </script>
-<style scoped>
+<style scoped lang="less">
 	.main {
 		margin-top: -20px;
+		.showStudio {
+			overflow: hidden;
+			height: 220px;
+			background: url('~assets/bg.png');
+			background-size: 100% 100%;
+			.content {
+				display: flex;
+				width: 90%;
+				margin: 20px auto;
+				.studio {
+					/* float: left; */
+					text-align: left;
+					font-size: 30px;
+					color: white;
+					margin: 10px 0px 0px 20px;
+				}
+				.teacher {
+					position: absolute;
+					left: 0;
+					top: 60px;
+					color: white;
+					margin: 20px 0px 0px 20px;
+					width: 500px;
+					word-break: break-all;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+					span {
+						color: white;
+						padding-right: 10px;
+					}
+				}
+				.max_numberm {
+					color: white;
+					text-align: right;
+					margin-top: 30px;
+					// width: 20px;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+				.el-button {
+					position: absolute;
+					right: 0%;
+					top: 20px;
+					width: 190px;
+					font-size: 18px;
+					margin-bottom: 20px;
+				}
+				img {
+					margin-top: 10px;
+					margin-left: -40px;
+					width: 17%;
+					height: 17%;
+				}
+			}
+		}
+		.el-tabs {
+			text-align: left;
+			width: 100%;
+			min-height: 200px;
+			margin: 0 auto;
+			background: transparent;
+			div {
+				text-indent: 2em;
+				font-size: 19px;
+				color: #3c3c3c;
+			}
+		}
 	}
-	.studio {
-		/* float: left; */
-		text-align: left;
-		font-size: 30px;
-		color: white;
-		margin: 10px 0px 0px 20px;
-	}
-	.teacher {
-		position: absolute;
-		left: 0;
-		top: 60px;
-		color: white;
-		margin: 20px 0px 0px 20px;
-	}
-	.teacher span {
-		color: white;
-		padding-right: 10px;
-	}
-	.max_numberm,
-	.number {
-		color: white;
-		text-align: right;
-	}
-	.max_numberm {
-		margin-top: 30px;
-	}
-	.el-tabs {
-		text-align: left;
-		width: 100%;
-		min-height: 200px;
-		margin: 0 auto;
-		background: transparent;
-	}
-	.el-tabs div {
-		text-indent: 2em;
-		font-size: 19px;
-		color: #3c3c3c;
-	}
+	@media screen and (max-width: 656px) {
+		.main {
+			margin-top: -20px;
+			.showStudio {
+				overflow: hidden;
+				height: 160px;
+				background: url('~assets/bg.png');
+				background-size: 100% 100%;
+				.content {
+					display: flex;
+					width: 90%;
+					margin: 20px auto;
 
-	.showStudio {
-		overflow: hidden;
-		height: 220px;
-		background: url('~assets/bg.png');
-		background-size: 100% 100%;
+					.studio {
+						/* float: left; */
+						text-align: left;
+						font-size: 24px;
+						color: white;
+						margin: 10px 0px 0px 20px;
+					}
+					.teacher {
+						position: absolute;
+						left: 0;
+						top: 30px;
+						color: white;
+						font-size: 14px;
+						margin: 20px 0px 0px 20px;
+						width: 160px;
+						height: 60px;
+						word-break: break-all;
+						text-overflow: ellipsis;
+						overflow: hidden;
+						display: -webkit-box;
+						-webkit-line-clamp: 3;
+						-webkit-box-orient: vertical;
+						span {
+							color: white;
+							padding-right: 10px;
+						}
+					}
+					.max_numberm {
+						font-size: 14px;
+						color: white;
+						text-align: right;
+						margin-top: 30px;
+					}
+					.el-button {
+						position: absolute;
+						right: 0%;
+						top: 20px;
+						width: 100px;
+						padding: 9px 5px;
+						font-size: 18px;
+						margin-bottom: 20px;
+					}
+					img {
+						display: none;
+					}
+				}
+			}
+			.el-tabs {
+				text-align: left;
+				width: 99%;
+				min-height: 300px;
+				background: transparent;
+				div {
+					text-indent: 2em;
+					font-size: 14px;
+					color: black;
+				}
+			}
+		}
 	}
-	/* .el-button {
-		height: 60px;
-		width: 100%;
-		margin: 20px auto;
-	} */
-	.el-button {
-		position: absolute;
-		right: 0%;
-		top: 20px;
-		width: 190px;
-		font-size: 18px;
-		margin-bottom: 20px;
-	}
-	.number::before {
-		content: '';
-		display: block;
-		clear: both;
-	}
-	.content {
-		display: flex;
-		width: 90%;
-		margin: 20px auto;
-	}
+	@media screen and (max-width: 814px) {
+		.main {
+			margin-top: -20px;
+			.showStudio {
+				overflow: hidden;
+				height: 160px;
+				background: url('~assets/bg.png');
+				background-size: 100% 100%;
+				.content {
+					display: flex;
+					width: 90%;
+					margin: 20px auto;
 
-	img {
-		width: 17%;
-		height: 17%;
+					.studio {
+						/* float: left; */
+						text-align: left;
+						font-size: 24px;
+						color: white;
+						margin: 10px 0px 0px 20px;
+					}
+					.teacher {
+						position: absolute;
+						left: 0;
+						top: 20px;
+						color: white;
+						font-size: 14px;
+						margin: 20px 0px 0px 20px;
+						width: 160px;
+						height: 60px;
+						word-break: break-all;
+						text-overflow: ellipsis;
+						overflow: hidden;
+						display: -webkit-box;
+						-webkit-line-clamp: 3;
+						-webkit-box-orient: vertical;
+						span {
+							color: white;
+							padding-right: 10px;
+						}
+					}
+					.max_numberm {
+						font-size: 14px;
+						color: white;
+						text-align: right;
+						margin-top: 30px;
+					}
+					.el-button {
+						position: absolute;
+						right: 0%;
+						top: 20px;
+						width: 100px;
+						padding: 9px 5px;
+						font-size: 18px;
+						margin-bottom: 20px;
+					}
+					img {
+						display: none;
+					}
+				}
+			}
+			.el-tabs {
+				text-align: left;
+				width: 99%;
+				min-height: 300px;
+				background: transparent;
+				div {
+					text-indent: 2em;
+					font-size: 14px;
+					color: black;
+				}
+			}
+		}
 	}
-	/* .el-message-box__input {
-		padding: 0;
-	} */
+</style>
+<style>
+	@media screen and (max-width: 656px) {
+		.min-message {
+			width: 250px !important;
+		}
+	}
 </style>
