@@ -109,7 +109,7 @@
 				<!-- <span class="fontColor">钱庭霖</span> -->
 			</div>
 			<div>
-				开发者：朱颂（19级软工专本） 许心昊（19级软工专本）
+				开发者：许心昊（19级软工专本） 朱颂（19级软工专本）
 				<!-- <span class="fontColor">池灵达</span> -->
 			</div>
 			<!-- <div>Copyright 2020 19软工专升本：许心昊，朱颂. All rights reserved.</div> -->

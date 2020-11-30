@@ -96,7 +96,7 @@
 							// this.$router.push('/examine');
 						} else {
 							this.$message({
-								message: '账户验证错误',
+								message: '账号认证失败',
 								type: 'warning',
 							});
 						}
@@ -105,7 +105,7 @@
 						console.log(err);
 
 						this.$message({
-							message: '网络出现错误，请重新认证!',
+							message: '网络错误',
 							type: 'warning',
 						});
 					});
