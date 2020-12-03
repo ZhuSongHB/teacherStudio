@@ -29,10 +29,10 @@
 <script>
 	// import topNav from '../header/topNav';
 
-	import { getStudioDetail } from '../../network/api';
-	import { signUp } from '../../network/api';
+	import { getStudioDetail } from "../../network/api";
+	import { signUp } from "../../network/api";
 	export default {
-		name: 'StudioDetail',
+		name: "StudioDetail",
 		data() {
 			return {
 				// isSignUp: false,
@@ -47,22 +47,22 @@
 			open() {
 				//判断是否登录
 				if (this.getDate()) {
-					if (sessionStorage.getItem('id')) {
-						this.$prompt('个人自荐', '自荐', {
-							confirmButtonText: '确定',
-							cancelButtonText: '取消',
-							inputType: 'textarea',
-							customClass: 'min-message',
+					if (sessionStorage.getItem("id")) {
+						this.$prompt("个人自荐", "自荐", {
+							confirmButtonText: "确定",
+							cancelButtonText: "取消",
+							inputType: "textarea",
+							customClass: "min-message",
 						})
 							.then(val => {
 								// 获取学生id
-								const studentId = sessionStorage.getItem('id');
+								const studentId = sessionStorage.getItem("id");
 								//工作室ID
 								const studioId = this.$route.params.id;
-								const token = sessionStorage.getItem('token');
+								const token = sessionStorage.getItem("token");
 								// 自荐
 								const introduce = val;
-								const type = sessionStorage.getItem('type');
+								const type = sessionStorage.getItem("type");
 
 								this.SignUploading = true;
 								// console.log(studioId);
@@ -75,14 +75,14 @@
 										console.log(res);
 										if (res.code == 1) {
 											this.$message({
-												type: 'success',
+												type: "success",
 												message: res.msg,
 											});
 										} else if (res.code == 0) {
 											this.$notify.error({
-												title: '报名失败',
+												title: "报名失败",
 												dangerouslyUseHTMLString: true,
-												message: '<p> 1.学生只能报名、加入一个工作室 </p> <p>  2.加入的工作室已满员</p> ',
+												message: "<p> 1.学生只能报名、加入一个工作室 </p> <p>  2.加入的工作室已满员</p> ",
 												duration: 4000,
 											});
 										}
@@ -91,26 +91,26 @@
 									.catch(err => {
 										console.log(err);
 										this.$message({
-											message: '网络出现错误!',
-											type: 'warning',
+											message: "网络出现错误!",
+											type: "warning",
 										});
 										this.SignUploading = false;
 									});
 							})
 							.catch(() => {});
 					} else {
-						this.$confirm('请先登录认证在报名', '未登录', {
+						this.$confirm("请先登录认证在报名", "未登录", {
 							distinguishCancelAndClose: true,
-							confirmButtonText: '确认',
-							cancelButtonText: '取消',
+							confirmButtonText: "确认",
+							cancelButtonText: "取消",
 						}).then(() => {
-							this.$router.push('/login');
+							this.$router.push("/login");
 						});
 					}
 				} else {
 					this.$message({
-						message: '超出报名时间！！',
-						type: 'warning',
+						message: "超出报名时间！！",
+						type: "warning",
 					});
 				}
 			},
@@ -119,7 +119,7 @@
 			 */
 			getDate() {
 				// 获取2020-12-3中午12点的时间戳
-				const date = new Date('2020-12-3-12:00');
+				const date = new Date("2020-12-3-16:00");
 				// 获取当前时间
 				const nowDate = new Date();
 				return date.getTime() > nowDate.getTime();
@@ -131,13 +131,13 @@
 				.then(res => {
 					this.content = res.data.data;
 					this.loading = false;
-					document.title = this.content.name ? this.content.name : '错误';
+					document.title = this.content.name ? this.content.name : "错误";
 				})
 				.catch(err => {
 					console.log(err);
 					this.$message({
-						message: '网络出现错误!',
-						type: 'warning',
+						message: "网络出现错误!",
+						type: "warning",
 					});
 				});
 		},
@@ -149,7 +149,7 @@
 		.showStudio {
 			overflow: hidden;
 			height: 220px;
-			background: url('~assets/bg.png');
+			background: url("~assets/bg.png");
 			background-size: 100% 100%;
 			.content {
 				display: flex;
@@ -224,7 +224,7 @@
 			.showStudio {
 				overflow: hidden;
 				height: 160px;
-				background: url('~assets/bg.png');
+				background: url("~assets/bg.png");
 				background-size: 100% 100%;
 				.content {
 					display: flex;
@@ -297,7 +297,7 @@
 			.showStudio {
 				overflow: hidden;
 				height: 160px;
-				background: url('~assets/bg.png');
+				background: url("~assets/bg.png");
 				background-size: 100% 100%;
 				.content {
 					display: flex;
