@@ -3,14 +3,14 @@
 		<div class="showStudio">
 			<div class="content">
 				<img src="../../assets/tupian.jpg" alt="" />
-				<div style="width:100%;position: relative;">
+				<div style="width: 100%; position: relative">
 					<div class="studio">{{ content.name }}</div>
 					<div class="teacher">
 						<span>指导老师：</span>
 						<span v-for="(item, i) in content.teachers" :key="i">{{ item }}</span>
 					</div>
 					<!-- v-if="!isSignUp" -->
-					<el-button type="text" @click="open" style="background:#ff6d43;color:white;" v-loading="SignUploading">点击报名</el-button>
+					<el-button type="text" @click="open" style="background: #ff6d43; color: white" v-loading="SignUploading">点击报名</el-button>
 					<!-- <el-button v-else type="text" @click="open" style="background:#ff6d43;color:white;" disabled>审核中...</el-button> -->
 					<div class="max_numberm">人数：{{ content.student_num }}/{{ content.max_student }}人</div>
 				</div>
@@ -46,64 +46,83 @@
 		methods: {
 			open() {
 				//判断是否登录
-				if (sessionStorage.getItem('id')) {
-					this.$prompt('个人自荐', '自荐', {
-						confirmButtonText: '确定',
-						cancelButtonText: '取消',
-						inputType: 'textarea',
-						customClass: 'min-message',
-					}).then(val => {
-						// 获取学生id
-						const studentId = sessionStorage.getItem('id');
-						//工作室ID
-						const studioId = this.$route.params.id;
-						const token = sessionStorage.getItem('token');
-						// 自荐
-						const introduce = val;
-						const type = sessionStorage.getItem('type');
+				if (this.getDate()) {
+					if (sessionStorage.getItem('id')) {
+						this.$prompt('个人自荐', '自荐', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							inputType: 'textarea',
+							customClass: 'min-message',
+						})
+							.then(val => {
+								// 获取学生id
+								const studentId = sessionStorage.getItem('id');
+								//工作室ID
+								const studioId = this.$route.params.id;
+								const token = sessionStorage.getItem('token');
+								// 自荐
+								const introduce = val;
+								const type = sessionStorage.getItem('type');
 
-						this.SignUploading = true;
-						// console.log(studioId);
-						// console.log(val);
-						// console.log(token);
+								this.SignUploading = true;
+								// console.log(studioId);
+								// console.log(val);
+								// console.log(token);
 
-						signUp(studentId, studioId, type, introduce.value, token)
-							.then(res => {
-								res = res.data;
-								console.log(res);
-								if (res.code == 1) {
-									this.$message({
-										type: 'success',
-										message: res.msg,
+								signUp(studentId, studioId, type, introduce.value, token)
+									.then(res => {
+										res = res.data;
+										console.log(res);
+										if (res.code == 1) {
+											this.$message({
+												type: 'success',
+												message: res.msg,
+											});
+										} else if (res.code == 0) {
+											this.$notify.error({
+												title: '报名失败',
+												dangerouslyUseHTMLString: true,
+												message: '<p> 1.学生只能报名、加入一个工作室 </p> <p>  2.加入的工作室已满员</p> ',
+												duration: 4000,
+											});
+										}
+										this.SignUploading = false;
+									})
+									.catch(err => {
+										console.log(err);
+										this.$message({
+											message: '网络出现错误!',
+											type: 'warning',
+										});
+										this.SignUploading = false;
 									});
-								} else if (res.code == 0) {
-									this.$notify.error({
-										title: '报名失败',
-										dangerouslyUseHTMLString: true,
-										message: '<p> 1.学生只能报名、加入一个工作室 </p> <p>  2.加入的工作室已满员</p> ',
-										duration: 4000,
-									});
-								}
-								this.SignUploading = false;
 							})
-							.catch(err => {
-								console.log(err);
-								this.$message({
-									message: '网络出现错误!',
-									type: 'warning',
-								});
-								this.SignUploading = false;
-							});
-					});
+							.catch(() => {});
+					} else {
+						this.$confirm('请先登录认证在报名', '未登录', {
+							distinguishCancelAndClose: true,
+							confirmButtonText: '确认',
+							cancelButtonText: '取消',
+						}).then(() => {
+							this.$router.push('/login');
+						});
+					}
 				} else {
-					this.$confirm('请先登录认证在报名', '未登录', {
-						distinguishCancelAndClose: true,
-						confirmButtonText: '确认',
-						cancelButtonText: '取消',
-					}).then(() => {
-						this.$router.push('/login');
+					this.$message({
+						message: '超出报名时间！！',
+						type: 'warning',
 					});
 				}
+			},
+			/**
+			 *  返回Boolen值，判断是否超过2020-12-3中午12点
+			 */
+			getDate() {
+				// 获取2020-12-3中午12点的时间戳
+				const date = new Date('2020-12-3-12:00');
+				// 获取当前时间
+				const nowDate = new Date();
+				return date.getTime() > nowDate.getTime();
 			},
 		},
 		created() {
