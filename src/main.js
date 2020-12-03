@@ -1,19 +1,19 @@
-import Vue from 'vue';
+import Vue from "vue";
 // import ElementUI from 'element-ui';
 // import 'element-ui/lib/theme-chalk/index.css';
 // 按需加载
 
-import './plugins/element';
-import App from './App.vue';
-import router from './router';
-import store from './store';
-require('./mock');
+import "./plugins/element";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+// require('./mock');
 // Vue.use(ElementUI);
 Vue.config.productionTip = false;
 new Vue({
 	router,
 	store,
 	render: h => h(App),
-}).$mount('#app');
+}).$mount("#app");
 
-document.title = '阳光学院-名师工作室';
+document.title = "阳光学院-名师工作室";
