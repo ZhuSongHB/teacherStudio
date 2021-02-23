@@ -2,25 +2,25 @@
 	<div>
 		<!-- 图片 -->
 		<div>
-			<el-carousel indicator-position="outside" height="400px">
-				<el-carousel-item v-for="item in imgList" :key="item">
-					<!-- <h3>{{ item }}</h3> -->
-					<img :src="item" class="carousel_img" />
-				</el-carousel-item>
-			</el-carousel>
+			<!-- <el-carousel indicator-position="outside" height="400px"> -->
+			<!-- <el-carousel-item v-for="item in imgList" :key="item"> -->
+			<!-- <h3>{{ item }}</h3> -->
+			<!-- <img :src="item" class="carousel_img" /> -->
+			<!-- </el-carousel-item> -->
+			<!-- </el-carousel> -->
 		</div>
 		<notice-content :title="title" />
 	</div>
 </template>
 
 <script>
-	import noticeContent from './Component/noticeList';
+	import noticeContent from "./Component/noticeList";
 	export default {
-		name: 'Notice',
+		name: "Notice",
 		data() {
 			return {
-				title: '公告通知',
-				imgList: ['http://zsb.ygu.edu.cn/img/2.jpg', 'http://zsb.ygu.edu.cn/img/3.jpg', 'http://zsb.ygu.edu.cn/img/1.jpg'],
+				title: "公告通知",
+				imgList: ["http://zsb.ygu.edu.cn/img/2.jpg", "http://zsb.ygu.edu.cn/img/3.jpg", "http://zsb.ygu.edu.cn/img/1.jpg"],
 			};
 		},
 		components: {

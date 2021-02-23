@@ -7,7 +7,10 @@ import "./plugins/element";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-// require('./mock');
+import infiniteScroll from "vue-infinite-scroll";
+// require("./mock");
+
+Vue.use(infiniteScroll);
 // Vue.use(ElementUI);
 Vue.config.productionTip = false;
 new Vue({

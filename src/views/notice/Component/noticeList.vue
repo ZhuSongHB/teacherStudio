@@ -21,9 +21,9 @@
 				</div>
 				<div class="content">
 					<div v-for="(item, index) in textList" :key="index" class="contentBox">
-						<a href="/noticeDetail">
+						<div @click="goDetail(item.id)">
 							<span class="data">{{ item.data }}</span>
-						</a>
+						</div>
 						<span class="time">{{ item.time }}</span>
 					</div>
 				</div>
@@ -34,17 +34,23 @@
 
 <script>
 	export default {
-		name: 'Notice',
-		props: ['title'],
+		name: "Notice",
+		props: ["title"],
 		data() {
 			return {
 				textList: [
-					{ data: 111111, time: '2020-07-26' },
-					{ data: 2222222222222, time: '2020-07-26' },
-					{ data: 33333, time: '2020-07-26' },
-					{ data: 2222222222222, time: '2020-07-26' },
+					{ data: 111111, time: "2020-07-26", id: 111111 },
+					{ data: 2222222222222, time: "2020-07-26", id: 2222222222222 },
+					{ data: 33333, time: "2020-07-26", id: 33333 },
+					{ data: 2222222222222, time: "2020-07-26", id: 2222222222222 },
 				],
 			};
+		},
+		methods: {
+			goDetail(id) {
+				let routerJump = this.$router.resolve({ path: "/noticeDetail/" + id });
+				this.$router.push(routerJump.location.path + routerJump.location.params.id);
+			},
 		},
 	};
 </script>

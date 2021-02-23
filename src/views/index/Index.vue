@@ -13,29 +13,31 @@
 		<div class="card">
 			<el-card class="box-card">
 				<div slot="header" class="clearfix">
-					<span>公告通知</span>
+					<span>工作室风采</span>
+				</div>
+				<el-carousel indicator-position="outside">
+					<el-carousel-item v-for="item in imgList" :key="item">
+						<!-- <h3>{{ item }}</h3> -->
+						<img :src="item" class="carousel_img" />
+					</el-carousel-item>
+				</el-carousel>
+			</el-card>
+			<el-card class="box-card">
+				<div slot="header" class="clearfix">
+					<span>工作室动态列表</span>
 					<el-button style="float: right; padding: 3px 0" type="text">更多</el-button>
 				</div>
 				<div v-for="o in 4" :key="o" class="text item">
-					{{ '列表内容 ' + o }}
+					{{ "列表内容 " + o }}
 				</div>
 			</el-card>
 			<el-card class="box-card">
 				<div slot="header" class="clearfix">
-					<span>新闻动态</span>
+					<span>通知公告列表</span>
 					<el-button style="float: right; padding: 3px 0" type="text">更多</el-button>
 				</div>
 				<div v-for="o in 4" :key="o" class="text item">
-					{{ '列表内容 ' + o }}
-				</div>
-			</el-card>
-			<el-card class="box-card">
-				<div slot="header" class="clearfix">
-					<span>规章制度</span>
-					<el-button style="float: right; padding: 3px 0" type="text">更多</el-button>
-				</div>
-				<div v-for="o in 4" :key="o" class="text item">
-					{{ '列表内容 ' + o }}
+					{{ "列表内容 " + o }}
 				</div>
 			</el-card>
 			<el-card class="box-card">
@@ -44,7 +46,7 @@
 					<el-button style="float: right; padding: 3px 0" type="text">更多</el-button>
 				</div>
 				<div v-for="o in 4" :key="o" class="text item">
-					{{ '列表内容 ' + o }}
+					{{ "列表内容 " + o }}
 				</div>
 			</el-card>
 		</div>
@@ -53,10 +55,10 @@
 
 <script>
 	export default {
-		name: 'Index',
+		name: "Index",
 		data() {
 			return {
-				imgList: ['http://zsb.ygu.edu.cn/img/2.jpg', 'http://zsb.ygu.edu.cn/img/3.jpg', 'http://zsb.ygu.edu.cn/img/1.jpg'],
+				imgList: ["http://zsb.ygu.edu.cn/img/2.jpg", "http://zsb.ygu.edu.cn/img/3.jpg", "http://zsb.ygu.edu.cn/img/1.jpg"],
 			};
 		},
 	};
@@ -87,9 +89,6 @@
 	}
 	.el-carousel-item .carousel_img {
 		width: 100%;
-	}
-
-	.carousel_img {
 		object-fit: fill;
 	}
 	.box-card {
@@ -98,7 +97,12 @@
 	.card {
 		display: flex;
 		max-width: 1580px;
-		margin: 0 auto;
-		justify-content: space-between;
+		margin: 20px auto;
+		justify-content: space-around;
+		flex-wrap: wrap;
+	}
+	.el-card {
+		width: 700px;
+		margin-top: 20px;
 	}
 </style>

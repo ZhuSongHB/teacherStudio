@@ -3,7 +3,7 @@
 		<div class="Breadcrumb">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 				<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-				<el-breadcrumb-item>公告通知</el-breadcrumb-item>
+				<el-breadcrumb-item :to="{ path: '/notice' }">公告通知</el-breadcrumb-item>
 				<el-breadcrumb-item>公告详情</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
@@ -40,7 +40,7 @@
 </template>
 <script>
 	export default {
-		name: 'NoticeDetail',
+		name: "NoticeDetail",
 	};
 </script>
 <style scoped>

@@ -29,7 +29,8 @@
 					</div>
 					<div v-else-if="type == 1">
 						<router-link to="/" style="color:white;" class="mr20">{{ name }}</router-link>
-						<router-link to="/examine" style="color:white;white-space:nowrap;" class="mr20">审核中心</router-link>
+						<router-link to="/examine" style="color:yellow;white-space:nowrap;" class="mr20">申请列表</router-link>
+						<router-link to="/result" style="color:white;white-space:nowrap;" class="mr20">审核结果</router-link>
 						<router-link to="/" style="color:white;white-space:nowrap;" class="mr20"><span @click="exit">退出</span></router-link>
 					</div>
 				</div>
@@ -60,6 +61,7 @@
 							<router-link to="/personal">
 								<el-dropdown-item icon="el-icon-s-home">个人中心</el-dropdown-item>
 							</router-link>
+							<router-link to="/result" style="color:white;white-space:nowrap;" class="mr20">审核结果</router-link>
 							<router-link to="/">
 								<el-dropdown-item icon="el-icon-minus"><span @click="exit">退出</span></el-dropdown-item>
 							</router-link>
@@ -75,8 +77,9 @@
 								<el-dropdown-item icon="el-icon-user-solid">{{ name }}</el-dropdown-item>
 							</router-link>
 							<router-link to="/examine">
-								<el-dropdown-item icon="el-icon-s-home">审核中心</el-dropdown-item>
+								<el-dropdown-item icon="el-icon-s-home" style="color:orange;">申请列表</el-dropdown-item>
 							</router-link>
+							<router-link to="/result" style="color:white;white-space:nowrap;" class="mr20">审核结果</router-link>
 							<router-link to="/">
 								<el-dropdown-item icon="el-icon-minus"><span @click="exit">退出</span></el-dropdown-item>
 							</router-link>
@@ -88,10 +91,9 @@
 			<!-- 导航 -->
 			<div class="nav">
 				<div class="line"></div>
-				<el-menu class="el-menu-demo" mode="horizontal" background-color="#001c8c" text-color="#fff" active-text-color="#ffd04b" router>
+				<el-menu class="el-menu-demo" :default-active="hashUrl" mode="horizontal" background-color="#001c8c" text-color="#fff" active-text-color="#ffd04b" router>
 					<!-- <el-menu-item index="/index">首页</el-menu-item> -->
 					<el-menu-item index="/studio">工作室列表</el-menu-item>
-					<!-- <el-menu-item index="/new">新闻动态</el-menu-item> -->
 					<!-- <el-menu-item index="/notice">公告通知</el-menu-item> -->
 					<!-- <el-menu-item index="/rules">规章制度</el-menu-item> -->
 					<!-- <el-menu-item index="/load">下载专区</el-menu-item> -->
@@ -102,16 +104,18 @@
 			<router-view></router-view>
 		</el-main>
 		<!-- footer部分 -->
-		<el-footer style="height: 130px;">
+		<el-footer style="height: 150px;">
 			<div>网站开发者</div>
 			<div>
 				指导老师： 池灵达（教务处） 陈贵星（教务处） 钱庭霖
 				<!-- <span class="fontColor">钱庭霖</span> -->
 			</div>
 			<div>
-				开发者：许心昊（19级软工专本） 朱颂（19级软工专本）
+				<p>前端开发：朱颂（19软工专升本） 沈洛丞（19软工专升本）</p>
+				<p>后端开发：许心昊（19软工专升本） 李木火（19计科专升本）</p>
 				<!-- <span class="fontColor">池灵达</span> -->
 			</div>
+
 			<!-- <div>Copyright 2020 19软工专升本：许心昊，朱颂. All rights reserved.</div> -->
 			<div>
 				数据来源：教务处 联系人：林锋
@@ -122,22 +126,25 @@
 
 <script>
 	export default {
-		name: 'Home',
+		name: "Home",
 		data() {
 			return {
 				type: null,
-				name: '',
+				name: "",
+				hashUrl: "/index",
 			};
 		},
 		created() {
 			// 0是学生，1是老师
 
-			this.type = sessionStorage.getItem('type');
-			this.name = sessionStorage.getItem('name');
+			this.type = sessionStorage.getItem("type");
+			this.name = sessionStorage.getItem("name");
+
+			this.hashUrl = window.location.hash.substr(1);
 		},
 		methods: {
 			studio() {
-				this.$router.push('/studio');
+				this.$router.push("/studio");
 			},
 			exit() {
 				this.type = null;
@@ -147,8 +154,9 @@
 			},
 		},
 		updated() {
-			this.type = sessionStorage.getItem('type');
-			this.name = sessionStorage.getItem('name');
+			this.type = sessionStorage.getItem("type");
+			this.name = sessionStorage.getItem("name");
+			this.hashUrl = window.location.hash.substr(1);
 		},
 	};
 </script>
@@ -172,7 +180,7 @@
 		display: flex;
 		height: 105px;
 		padding: 20px 0 20px 0;
-		background: url('~assets/top-bg.jpg');
+		background: url("~assets/top-bg.jpg");
 		align-items: center;
 		.logo {
 			flex-grow: 1;
@@ -334,7 +342,7 @@
 		/* bottom: 0px; */
 		width: 100%;
 		font-size: 14px;
-		font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+		font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 		padding: 10px 0;
 		background: #333333;
 		/* font-weight: bold; */
